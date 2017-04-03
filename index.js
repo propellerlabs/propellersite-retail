@@ -1,30 +1,103 @@
 window.onload = function() {
+
   var canvasHeader = document.getElementById('canvas-header');
-  var canvasFooter = document.getElementById('canvas-footer');
   var headerHoverContainer = document.getElementById('canvas-header-hover');
-  var footerHoverContainer = document.getElementById('canvas-footer-hover');
   var headerContainer = document.getElementById('main-header');
+
+  var canvasFooter = document.getElementById('canvas-footer');
+  var footerHoverContainer = document.getElementById('canvas-footer-hover');
   var footerContainer = document.getElementById('footer');
-  setInteractiveCanvas(canvasHeader, headerHoverContainer, headerContainer);
-  setInteractiveCanvas(canvasFooter, footerHoverContainer, footerContainer);
+
+  var canvasAbout = document.getElementById('canvas-about-us');
+  var aboutContainer = document.getElementById('about-us');
+
+  var canvasClassics = document.getElementById('canvas-classics');
+  var classicsContainer = document.getElementById('classics');
+
+  var translateX = 10;
+  var translateY = 10;
+
+  var rectWidth = 8;
+  var rectHeight = 8;
+
+  setCanvases();
 
   window.onresize = function() {
-    setInteractiveCanvas(canvasHeader, headerHoverContainer, headerContainer);
-    setInteractiveCanvas(canvasFooter, footerHoverContainer, footerContainer);
+    setCanvases();
   };
 
-  function setInteractiveCanvas(canvas, hoverContainer, content) {
+  function setCanvases() {
+    setInteractiveCanvas(canvasHeader, headerHoverContainer, headerContainer);
+    setInteractiveCanvas(canvasFooter, footerHoverContainer, footerContainer);
+    setStaticCanvas(canvasAbout, aboutContainer);
+    setStaticCanvas(canvasClassics, classicsContainer);
+  }
+
+  function randomIntFromInterval(min, max) {
+    return Math.floor(Math.random()*(max-min+1)+min);
+  }
+
+  function randomNumFromInterval(min, max) {
+    return Math.random()*(max-min+1)+min;
+  }
+
+  function setStaticCanvas(canvas, content) {
     var context = canvas.getContext('2d');
     var width = window.innerWidth;
     var height = content.clientHeight;
 
+    setCanvasDimensions(canvas, width, height);
+    canvas.style.backgroundColor = 'rgb(255, 255, 255)';
+
+    var bgColor = function() { return randomIntFromInterval(251, 255) };
+
+    context.save();
+    drawBg({
+      context: context,
+      width: width,
+      height: height,
+      rectWidth: rectWidth,
+      rectHeight: rectHeight,
+      translateX: translateX,
+      translateY: translateY,
+      bgColor: bgColor
+    });
+    context.restore();
+  }
+
+  function setCanvasDimensions(canvas, width, height) {
     canvas.width = width;
     canvas.height = height;
-    hoverContainer.width = width;
-    hoverContainer.height = height;
+  }
+
+  function drawBg(options) {
+    var context = options.context;
+
+    for(var i = 0; i < options.width; i += options.translateX) {
+      context.save();
+      for(var j = 0; j < options.height; j += options.translateY) {
+        var color = options.bgColor();
+        context.fillStyle = 'rgb('+ color +','+ color +','+ color +')';
+        context.fillRect(0, 0, options.rectWidth, options.rectHeight);
+        context.translate(0, options.translateY);
+      }
+      context.restore();
+      context.translate(options.translateX, 0);
+    }
+  }
+
+  function setInteractiveCanvas(canvas, hoverCanvas, content) {
+    var context = canvas.getContext('2d');
+    var width = window.innerWidth;
+    var height = content.clientHeight;
+
+    setCanvasDimensions(canvas, width, height);
+    setCanvasDimensions(hoverCanvas, width, height);
+
     canvas.style.backgroundColor = 'rgb(32, 32, 32)';
 
     var bgColor = function() { return randomIntFromInterval(25, 32) };
+
     var paintColor = function() {
       const picker = randomIntFromInterval(0, 2);
       switch(picker) {
@@ -37,32 +110,20 @@ window.onload = function() {
       }
     }
 
-    var translateX = 10;
-    var translateY = 10;
-
-    var rectWidth = 8;
-    var rectHeight = 8;
-
     context.save();
-    drawBg();
+    drawBg({
+      context: context,
+      width: width,
+      height: height,
+      rectWidth: rectWidth,
+      rectHeight: rectHeight,
+      translateX: translateX,
+      translateY: translateY,
+      bgColor: bgColor
+    });
     context.restore();
-    hoverContainer.addEventListener('mousemove', onMouseMove);
-    hoverContainer.addEventListener('click', onClick);
-
-
-    function drawBg() {
-      for(var i = 0; i < width; i += translateX) {
-        context.save();
-        for(var j = 0; j < height; j += translateY) {
-          const color = bgColor();
-          context.fillStyle = 'rgb('+ color +','+ color +','+ color +')';
-          context.fillRect(0, 0, rectWidth, rectHeight);
-          context.translate(0, translateY);
-        }
-        context.restore();
-        context.translate(translateX, 0);
-      }
-    }
+    hoverCanvas.addEventListener('mousemove', onMouseMove);
+    hoverCanvas.addEventListener('click', onClick);
 
     function startStreak(xPos, yPos) {
       streak(xPos, yPos);
@@ -77,14 +138,6 @@ window.onload = function() {
       context.fillRect(xPos, yPos, rectWidth, rectHeight);
       xPos += translateX;
       requestAnimationFrame(function() { streak(xPos, yPos); });
-    }
-
-    function randomIntFromInterval(min, max) {
-      return Math.floor(Math.random()*(max-min+1)+min);
-    }
-
-    function randomNumFromInterval(min, max) {
-      return Math.random()*(max-min+1)+min;
     }
 
     function onMouseMove(e) {
