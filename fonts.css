@@ -1,0 +1,35 @@
+@font-face {
+  font-family: 'Calibre-Medium';
+  src: url('fonts/calibre-medium.eot');
+  src: url('fonts/calibre-medium.woff2') format('woff2'),
+       url('fonts/calibre-medium.woff') format('woff'),
+       url('fonts/calibre-medium.ttf') format('truetype'),
+       url('fonts/calibre-medium.svg#Calibre-Medium') format('svg'),
+       url('fonts/calibre-medium.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Calibre-Regular';
+  src: url('fonts/calibre-regular.eot');
+  src: url('fonts/calibre-regular.woff2') format('woff2'),
+       url('fonts/calibre-regular.woff') format('woff'),
+       url('fonts/calibre-regular.ttf') format('truetype'),
+       url('fonts/calibre-regular.svg#Calibre-Regular') format('svg'),
+       url('fonts/calibre-regular.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Platform-Medium';
+  src: url('fonts/platform-medium.eot');
+  src: url('fonts/platform-medium.woff2') format('woff2'),
+       url('fonts/platform-medium.woff') format('woff'),
+       url('fonts/platform-medium.ttf') format('truetype'),
+       url('fonts/Platform-medium.svg#Platform-Medium') format('svg'),
+       url('fonts/platform-medium.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
