@@ -5,7 +5,7 @@ body {
   height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell","Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   color: #222222;
-  text-rendering: optimizeLegibility; 
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -311,8 +311,17 @@ h1, h2, h3, h4, h5 {
 }
 
 @media(min-width: 738px) {
+  .case-studies__case-study__image-container__img {
+    min-height: 400px;
+    min-width: 500px;
+  }
+}
+
+@media(min-width: 738px) {
   .case-studies__case-study__image-container__img.left {
     margin-left: -34px;
+    height: 100%;
+    width: 100%;
   }
 }
 
@@ -320,6 +329,8 @@ h1, h2, h3, h4, h5 {
   .case-studies__case-study__image-container__img.right {
     margin-right: -70px;
     margin-left: 20px;
+    height: 100%;
+    width: 100%;
   }
 }
 
@@ -372,6 +383,17 @@ h1, h2, h3, h4, h5 {
     display: flex;
     margin-left: 206px;
     margin-right: 206px;
+
+    /* PURE CSS FALLBACK FOR SAFARI */
+    width: 60%;
+    /* Firefox */
+    width: -moz-calc(100% - 206px);
+    /* WebKit */
+    width: -webkit-calc(100% - 206px);
+    /* Opera */
+    width: -o-calc(100% - 206px);
+    /* Standard */
+    width: calc(100% - 206px);
   }
 }
 
