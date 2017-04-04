@@ -381,19 +381,9 @@ h1, h2, h3, h4, h5 {
 @media(min-width: 738px) {
   .classics__works-container {
     display: flex;
-    margin-left: 206px;
-    margin-right: 206px;
-
-    /* PURE CSS FALLBACK FOR SAFARI */
-    width: 60%;
-    /* Firefox */
-    width: -moz-calc(100% - 206px);
-    /* WebKit */
-    width: -webkit-calc(100% - 206px);
-    /* Opera */
-    width: -o-calc(100% - 206px);
-    /* Standard */
-    width: calc(100% - 206px);
+    margin-left: 10%;
+    margin-right: 10%;
+    width: 80%;
   }
 }
 
@@ -404,6 +394,7 @@ h1, h2, h3, h4, h5 {
 @media(min-width: 738px) {
   .classics__works-container__work {
     margin: 0 56px;
+    max-width: 100%;
   }
 
   .classics__works-container__work:first-child {
