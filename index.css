@@ -154,8 +154,8 @@ h1, h2, h3, h4, h5 {
     text-transform: uppercase;
     letter-spacing: 0.4px;
     font-weight: normal;
-    margin-left: 30px;
     margin-bottom: 42px;
+    margin-left: 0;
     color: rgba(34, 34, 34, 0.5);
   }
 }
