@@ -157,6 +157,9 @@ window.onload = function() {
 
       setInterval(function() {
         radius *= 1.01;
+        if(radius > window.innerWidth && radius > window.innerHeight) {
+          return;
+        }
         requestAnimationFrame(function() {
           paintSquare(position, 0, 0);
           drawColors(position, radius);
