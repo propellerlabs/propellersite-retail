@@ -34,30 +34,35 @@ window.onload = function() {
   })();
 
   var parallaxHover = function() {
-    var init = function(elClass, containerClass) {
+    var init = function(elClass, containerClass, boxShadowEffect) {
       var containers = Array.from(document.getElementsByClassName(containerClass));
 
       containers.forEach(function(container) {
         var el = container.getElementsByClassName(elClass)[0];
         container.addEventListener('mousemove', function(e) {
-          return onMouseMove(e, el, container);
+          return onMouseMove(e, el, container, boxShadowEffect);
         });
         container.addEventListener('mouseleave', function() {
-          return onMouseLeave(el);
+          return onMouseLeave(el, boxShadowEffect);
         })
       });
     }
 
-    var onMouseMove = function(e, el, container) {
+    var onMouseMove = function(e, el, container, boxShadowEffect) {
       var center = elCenter(el);
       var dist = distanceBetween(center.x, center.y, e.clientX, e.clientY);
       var distToDeg = normalizeDistToDegrees(dist, center, container);
       var direction = rotationDirection(center.x, center.y, e.clientX, e.clientY);
+      var dirToShadow = normalizeDirToShadow(direction, center, container);
       rotateEl(el, distToDeg, direction);
+      boxShadowEffect && applyBoxShadow(el, dist, dirToShadow);
     }
 
-    var onMouseLeave = function(el) {
+    var onMouseLeave = function(el, boxShadowEffect) {
       el.style[transformProp] = 'rotate3d(0, 0, 0, 0)';
+      if (boxShadowEffect) {
+        el.style.boxShadow = '8px 8px 24px 0 rgba(0, 0, 0, 0.16)';
+      }
     }
 
     var rotationDirection = function(x1, y1, x2, y2) {
@@ -66,14 +71,44 @@ window.onload = function() {
       return { x: x, y: y };
     }
 
-    var normalizeDistToDegrees = function(dist, center, container) {
+    var farthestDist = function(center, container) {
       var rect = container.getBoundingClientRect();
-      var farthestDist = distanceBetween(center.x, center.y, rect.right, rect.top);
-      return (farthestDist - dist) / farthestDist * 20;
+      return distanceBetween(center.x, center.y, rect.right, rect.top);
+    }
+
+    var farthestX = function(center, container) {
+      var rect = container.getBoundingClientRect();
+      var leftDist = rect.left - center.x;
+      var rightDist = rect.right - center.x;
+      return leftDist > rightDist ? leftDist : rightDist;
+    }
+
+    var farthestY = function(center, container) {
+      var rect = container.getBoundingClientRect();
+      var topDist = rect.top - center.y;
+      var bottomDist = rect.bottom - center.y;
+      return topDist > bottomDist ? topDist : bottomDist;
+    }
+
+    var normalizeDistToDegrees = function(dist, center, container) {
+      var far = farthestDist(center, container);
+      return (far - dist) / far * 15;
+    }
+
+    var normalizeDirToShadow = function(dir, center, container) {
+      var farX = farthestX(center, container);
+      var farY = farthestY(center, container);
+      var x = (farX - Math.abs(dir.x)) / farX * 8;
+      var y = (farY - Math.abs(dir.y)) / farY * 8;
+      return { x: x, y: y };
     }
 
     var rotateEl = function(el, dist, dir) {
-      el.style.transform = 'rotate3d(' + -dir.y + ',' + dir.x + ', 0,' + dist + 'deg)';
+      el.style[transformProp] = 'rotate3d(' + -dir.y + ',' + dir.x + ', 0,' + dist + 'deg)';
+    }
+
+    var applyBoxShadow = function(el, dist, dir) {
+      el.style.boxShadow = dir.y + 'px ' + dir.x + 'px ' + '24px 0 rgba(0, 0, 0, 0.16)';
     }
 
     var distanceBetween = function(x1, y1, x2, y2) {
@@ -104,7 +139,8 @@ window.onload = function() {
 
   parallaxHover.init(
     'about-us__stat-box',
-    'about-us'
+    'about-us',
+    true
   );
 
   setCanvases();
