@@ -152,19 +152,23 @@ window.onload = function() {
     function onClick(e) {
       var position = getPosition(e);
       var radius = 1;
+      var t = 1;
       paintSquare(position, 0, 0);
       drawColors(position, radius);
 
-      setInterval(function() {
-        radius *= 1.01;
+      var animation = function() {
         if(radius > window.innerWidth && radius > window.innerHeight) {
           return;
         }
-        requestAnimationFrame(function() {
-          paintSquare(position, 0, 0);
-          drawColors(position, radius);
-        })
-      }, 1000 / 10);
+        t++;
+        radius = radius * 1.01;
+        console.log(radius);
+        paintSquare(position, 0, 0);
+        drawColors(position, radius);
+        requestAnimationFrame(animation);
+      };
+
+      animation();
     }
 
     function getPosition(e) {
@@ -178,12 +182,25 @@ window.onload = function() {
     function drawColors(position, radius) {
       var radiusInt = Math.round(radius);
       for(var i = -radiusInt; i < radiusInt; i++) {
+        var dx = Math.abs(i);
         for(var j = -radiusInt; j < radiusInt; j++) {
-          if ((Math.abs(i) < radiusInt / 1.5 || Math.abs(j) < radiusInt / 1.5) &&
-            randomIntFromInterval(0, 0.01)) {
+          var dy = Math.abs(j);
+          if (inCircle(dx, dy, radiusInt)) {
             paintSquare(position, i, j);
           }
         }
+      }
+    }
+
+    function inCircle(dx, dy, R) {
+      if (dx > R) {
+        return false;
+      } else if (dy > R) {
+        return false;
+      } else if (Math.pow(dx, 2) + Math.pow(dy, 2) <= Math.pow(R, 2) && Math.pow(dx, 2) + Math.pow(dy, 2) >= Math.pow((R - 2), 2) ) {
+        return true;
+      } else {
+        return false;
       }
     }
 
@@ -192,6 +209,20 @@ window.onload = function() {
       var originY = Math.floor(position.y/translateY) * translateY;
       context.fillStyle = paintColor();
       context.fillRect(originX + (translateX * i), originY + (translateY * j), rectWidth, rectHeight);
+    }
+
+    function clear(context) {
+      context.clearRect(translateX, translwidth, height)
+      drawBg({
+        context: context,
+        width: width,
+        height: height,
+        rectWidth: rectWidth,
+        rectHeight: rectHeight,
+        translateX: translateX,
+        translateY: translateY,
+        bgColor: bgColor
+      });
     }
 
     function resetColor(position, i, j, timeout = 2000) {
