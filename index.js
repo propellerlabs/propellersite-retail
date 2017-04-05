@@ -20,6 +20,88 @@ window.onload = function() {
   var rectWidth = 8;
   var rectHeight = 8;
 
+  var transformProp = (function(){
+    var testEl = document.createElement('div');
+    if(testEl.style.transform == null) {
+      var vendors = ['Webkit', 'Moz', 'ms'];
+      for(var vendor in vendors) {
+        if(testEl.style[ vendors[vendor] + 'Transform' ] !== undefined) {
+          return vendors[vendor] + 'Transform';
+        }
+      }
+    }
+    return 'transform';
+  })();
+
+  var parallaxHover = function() {
+    var init = function(elClass, containerClass) {
+      var containers = Array.from(document.getElementsByClassName(containerClass));
+
+      containers.forEach(function(container) {
+        var el = container.getElementsByClassName(elClass)[0];
+        container.addEventListener('mousemove', function(e) {
+          return onMouseMove(e, el, container);
+        });
+        container.addEventListener('mouseleave', function() {
+          return onMouseLeave(el);
+        })
+      });
+    }
+
+    var onMouseMove = function(e, el, container) {
+      var center = elCenter(el);
+      var dist = distanceBetween(center.x, center.y, e.clientX, e.clientY);
+      var distToDeg = normalizeDistToDegrees(dist, center, container);
+      var direction = rotationDirection(center.x, center.y, e.clientX, e.clientY);
+      rotateEl(el, distToDeg, direction);
+    }
+
+    var onMouseLeave = function(el) {
+      el.style[transformProp] = 'rotate3d(0, 0, 0, 0)';
+    }
+
+    var rotationDirection = function(x1, y1, x2, y2) {
+      var x = x2 - x1;
+      var y = y2 - y1;
+      return { x: x, y: y };
+    }
+
+    var normalizeDistToDegrees = function(dist, center, container) {
+      var rect = container.getBoundingClientRect();
+      var farthestDist = distanceBetween(center.x, center.y, rect.right, rect.top);
+      return (farthestDist - dist) / farthestDist * 20;
+    }
+
+    var rotateEl = function(el, dist, dir) {
+      el.style.transform = 'rotate3d(' + -dir.y + ',' + dir.x + ', 0,' + dist + 'deg)';
+    }
+
+    var distanceBetween = function(x1, y1, x2, y2) {
+      return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
+    }
+
+    var elCenter = function(el) {
+      var rect = el.getBoundingClientRect();
+      var x = rect.left + rect.width / 2;
+      var y = rect.top + rect.height / 2;
+      return { x: x, y: y };
+    }
+
+    return {
+      init: init
+    };
+  }();
+
+  parallaxHover.init(
+    'classics__works-container__work__image',
+    'classics__works-container__work'
+  );
+
+  parallaxHover.init(
+    'case-studies__case-study__image-container__img',
+    'case-studies__case-study'
+  );
+
   setCanvases();
 
   window.onresize = function() {
@@ -46,7 +128,8 @@ window.onload = function() {
     var width = window.innerWidth;
     var height = content.clientHeight;
 
-    setCanvasDimensions(canvas, width, height);
+    canvas.width = width;
+    canvas.height = height;
     canvas.style.backgroundColor = 'rgb(255, 255, 255)';
 
     var bgColor = function() { return randomIntFromInterval(251, 255) };
@@ -63,11 +146,6 @@ window.onload = function() {
       bgColor: bgColor
     });
     context.restore();
-  }
-
-  function setCanvasDimensions(canvas, width, height) {
-    canvas.width = width;
-    canvas.height = height;
   }
 
   function drawBg(options) {
@@ -91,8 +169,10 @@ window.onload = function() {
     var width = window.innerWidth;
     var height = content.clientHeight;
 
-    setCanvasDimensions(canvas, width, height);
-    setCanvasDimensions(hoverCanvas, width, height);
+    canvas.width = width;
+    canvas.height = height;
+    hoverCanvas.width = width;
+    hoverCanvas.height = height;
 
     canvas.style.backgroundColor = 'rgb(32, 32, 32)';
 
@@ -204,4 +284,5 @@ window.onload = function() {
       }, timeout);
     }
   }
+
 }

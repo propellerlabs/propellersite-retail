@@ -55,6 +55,7 @@ h1, h2, h3, h4, h5 {
   top: 0;
   left: 0;
   z-index: -1;
+  transform: translate3d(0, 0, -100px);
 }
 
 .main-header__content {
@@ -286,6 +287,7 @@ h1, h2, h3, h4, h5 {
 #case-studies {
   background-color: #f8f8f8;
   padding: 20px;
+  transform: translate3d(0, 0, -100px);
 }
 
 @media(min-width: 738px) {
