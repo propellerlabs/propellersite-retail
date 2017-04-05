@@ -102,6 +102,11 @@ window.onload = function() {
     'case-studies__case-study'
   );
 
+  parallaxHover.init(
+    'about-us__stat-box',
+    'about-us'
+  );
+
   setCanvases();
 
   window.onresize = function() {
