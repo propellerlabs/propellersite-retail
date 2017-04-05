@@ -1,0 +1,12 @@
+{
+  "name": "propellersite-retail",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:propellerlabs/propellersite-retail.git",
+  "author": "John Gibbons <johngibbons10@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.2",
+    "nodemailer": "^3.1.8"
+  }
+}
