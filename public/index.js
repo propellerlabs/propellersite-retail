@@ -20,130 +20,46 @@ window.onload = function() {
   var rectWidth = 8;
   var rectHeight = 8;
 
-  var transformProp = (function(){
-    var testEl = document.createElement('div');
-    if(testEl.style.transform == null) {
-      var vendors = ['Webkit', 'Moz', 'ms'];
-      for(var vendor in vendors) {
-        if(testEl.style[ vendors[vendor] + 'Transform' ] !== undefined) {
-          return vendors[vendor] + 'Transform';
-        }
-      }
-    }
-    return 'transform';
-  })();
+  var modalHandler = (function() {
+    var init = function() {
+      var links = Array.from(document.getElementsByClassName('modal-link'));
 
-  var parallaxHover = function() {
-    var init = function(elClass, containerClass, boxShadowEffect) {
-      var containers = Array.from(document.getElementsByClassName(containerClass));
-
-      containers.forEach(function(container) {
-        var el = container.getElementsByClassName(elClass)[0];
-        container.addEventListener('mousemove', function(e) {
-          return onMouseMove(e, el, container, boxShadowEffect);
+      links.forEach(function(link) {
+        var modalName = link.dataset.modal;
+        var modal = document.getElementById(modalName + '-modal');
+        var overlay = document.getElementById('overlay');
+        var close = modal.querySelector('.close-icon');
+        close.addEventListener('click', function() {
+          closeModal(modal, overlay);
         });
-        container.addEventListener('mouseleave', function() {
-          return onMouseLeave(el, boxShadowEffect);
-        })
-      });
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          toggleModal(modal, overlay);
+        });
+      })
     }
 
-    var onMouseMove = function(e, el, container, boxShadowEffect) {
-      var center = elCenter(el);
-      var dist = distanceBetween(center.x, center.y, e.clientX, e.clientY);
-      var distToDeg = normalizeDistToDegrees(dist, center, container);
-      var direction = rotationDirection(center.x, center.y, e.clientX, e.clientY);
-      var dirToShadow = normalizeDirToShadow(direction, center, container);
-      rotateEl(el, distToDeg, direction);
-      boxShadowEffect && applyBoxShadow(el, dist, dirToShadow);
-    }
+    var toggleModal = function(modal, overlay) {
+      var body = document.getElementsByTagName('body')[0];
+      body.classList.toggle('modal-open');
+      modal.classList.toggle('show');
+      overlay.classList.toggle('show');
+    };
 
-    var onMouseLeave = function(el, boxShadowEffect) {
-      el.style[transformProp] = 'rotate3d(0, 0, 0, 0)';
-      if (boxShadowEffect) {
-        el.style.boxShadow = '8px 8px 24px 0 rgba(0, 0, 0, 0.16)';
-      }
-    }
-
-    var rotationDirection = function(x1, y1, x2, y2) {
-      var x = x2 - x1;
-      var y = y2 - y1;
-      return { x: x, y: y };
-    }
-
-    var farthestDist = function(center, container) {
-      var rect = container.getBoundingClientRect();
-      return distanceBetween(center.x, center.y, rect.right, rect.top);
-    }
-
-    var farthestX = function(center, container) {
-      var rect = container.getBoundingClientRect();
-      var leftDist = rect.left - center.x;
-      var rightDist = rect.right - center.x;
-      return leftDist > rightDist ? leftDist : rightDist;
-    }
-
-    var farthestY = function(center, container) {
-      var rect = container.getBoundingClientRect();
-      var topDist = rect.top - center.y;
-      var bottomDist = rect.bottom - center.y;
-      return topDist > bottomDist ? topDist : bottomDist;
-    }
-
-    var normalizeDistToDegrees = function(dist, center, container) {
-      var far = farthestDist(center, container);
-      return (far - dist) / far * 15;
-    }
-
-    var normalizeDirToShadow = function(dir, center, container) {
-      var farX = farthestX(center, container);
-      var farY = farthestY(center, container);
-      var x = (farX - Math.abs(dir.x)) / farX * 8;
-      var y = (farY - Math.abs(dir.y)) / farY * 8;
-      return { x: x, y: y };
-    }
-
-    var rotateEl = function(el, dist, dir) {
-      el.style[transformProp] = 'rotate3d(' + -dir.y + ',' + dir.x + ', 0,' + dist + 'deg)';
-    }
-
-    var applyBoxShadow = function(el, dist, dir) {
-      el.style.boxShadow = dir.y + 'px ' + dir.x + 'px ' + '24px 0 rgba(0, 0, 0, 0.16)';
-    }
-
-    var distanceBetween = function(x1, y1, x2, y2) {
-      return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
-    }
-
-    var elCenter = function(el) {
-      var rect = el.getBoundingClientRect();
-      var x = rect.left + rect.width / 2;
-      var y = rect.top + rect.height / 2;
-      return { x: x, y: y };
+    var closeModal = function(modal, overlay) {
+      var body = document.getElementsByTagName('body')[0];
+      body.classList.remove('modal-open');
+      modal.classList.remove('show');
+      overlay.classList.remove('show');
     }
 
     return {
       init: init
     };
-  }();
-
-  parallaxHover.init(
-    'classics__works-container__work__image',
-    'classics__works-container__work'
-  );
-
-  parallaxHover.init(
-    'case-studies__case-study__image-container__img',
-    'case-studies__case-study'
-  );
-
-  parallaxHover.init(
-    'about-us__stat-box',
-    'about-us',
-    true
-  );
+  }());
 
   setCanvases();
+  modalHandler.init();
 
   window.onresize = function() {
     setCanvases();
@@ -169,8 +85,7 @@ window.onload = function() {
     var width = window.innerWidth;
     var height = content.clientHeight;
 
-    canvas.width = width;
-    canvas.height = height;
+    setCanvasDimensions(canvas, width, height);
     canvas.style.backgroundColor = 'rgb(255, 255, 255)';
 
     var bgColor = function() { return randomIntFromInterval(251, 255) };
@@ -187,6 +102,11 @@ window.onload = function() {
       bgColor: bgColor
     });
     context.restore();
+  }
+
+  function setCanvasDimensions(canvas, width, height) {
+    canvas.width = width;
+    canvas.height = height;
   }
 
   function drawBg(options) {
@@ -210,10 +130,8 @@ window.onload = function() {
     var width = window.innerWidth;
     var height = content.clientHeight;
 
-    canvas.width = width;
-    canvas.height = height;
-    hoverCanvas.width = width;
-    hoverCanvas.height = height;
+    setCanvasDimensions(canvas, width, height);
+    setCanvasDimensions(hoverCanvas, width, height);
 
     canvas.style.backgroundColor = 'rgb(32, 32, 32)';
 
@@ -325,5 +243,4 @@ window.onload = function() {
       }, timeout);
     }
   }
-
 }
