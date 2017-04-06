@@ -1,5 +1,6 @@
 var express = require('express');
 var nodemailer = require('nodemailer');
+var sgTransport = require('nodemailer-sendgrid-transport');
 
 var options = {
   auth: {
