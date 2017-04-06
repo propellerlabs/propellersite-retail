@@ -14,7 +14,6 @@ app.get('*', function (req, res) {
 });
 
 app.post('/start-submit', function(req, res) {
-  console.log('start submit');
 });
 
 app.post('/consultation-submit', function(req, res) {
