@@ -5,9 +5,12 @@
   "repository": "git@github.com:propellerlabs/propellersite-retail.git",
   "author": "John Gibbons <johngibbons10@gmail.com>",
   "license": "MIT",
-  "scripts": { "start": "node app.js" },
+  "scripts": {
+    "start": "node app.js"
+  },
   "dependencies": {
     "express": "^4.15.2",
-    "nodemailer": "^3.1.8"
+    "nodemailer": "^3.1.8",
+    "nodemailer-sendgrid-transport": "^0.2.0"
   }
 }
