@@ -1,4 +1,5 @@
 var express = require('express');
+var nodemailer = require('nodemailer');
 
 var app = express();
 
@@ -10,6 +11,18 @@ app.get('/', function (req, res) {
 
 app.get('*', function (req, res) {
   res.redirect('/');
+});
+
+app.post('/start-submit', function(req, res) {
+  console.log('start submit');
+});
+
+app.post('/consultation-submit', function(req, res) {
+  console.log('consultation submit');
+});
+
+app.post('/newsletter-submit', function(req, res) {
+  console.log('newsletter submit');
 });
 
 app.listen(3000, function () {
