@@ -33,17 +33,17 @@ app.get('*', function (req, res) {
 
 app.post('/start-submit', function(req, res) {
   var body =
-    'Name: ' +
+    '<b>Name:</b> ' +
     '<p>' + req.body.name + '</p>' +
-    'Company: ' +
+    '<b>Company:</b> ' +
     '<p>' + req.body.company + '</p>' +
-    'Title: ' +
+    '<b>Title:</b> ' +
     '<p>' + req.body.title + '</p>' +
-    'Phone: ' +
+    '<b>Phone:</b> ' +
     '<p>' + req.body.phone + '</p>' +
-    'Email: ' +
+    '<b>Email:</b> ' +
     '<p>' + req.body.email + '</p>' +
-    'Additional Detail: ' +
+    '<b>Additional Detail:</b> ' +
     '<p>' + req.body.details + '</p>';
 
   var text =
@@ -75,19 +75,19 @@ app.post('/start-submit', function(req, res) {
 
 app.post('/consultation-submit', function(req, res) {
   var body =
-    'Name: ' +
+    '<b>Name:</b> ' +
     '<p>' + req.body.name + '</p>' +
-    'Location: ' +
+    '<b>Location:</b> ' +
     '<p>' + req.body.location + '</p>' +
-    'Company: ' +
+    '<b>Company:</b> ' +
     '<p>' + req.body.company + '</p>' +
-    'Title: ' +
+    '<b>Title:</b> ' +
     '<p>' + req.body.title + '</p>' +
-    'Phone: ' +
+    '<b>Phone:</b> ' +
     '<p>' + req.body.phone + '</p>' +
-    'Email: ' +
+    '<b>Email:</b> ' +
     '<p>' + req.body.email + '</p>' +
-    'Additional Detail: ' +
+    '<b>Additional Detail:</b> ' +
     '<p>' + req.body.details + '</p>';
 
   var text =

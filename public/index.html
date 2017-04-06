@@ -313,11 +313,11 @@
         </div>
         <div class='modal-form__form-input half'>
           <label for='start-a-project__phone' class='modal-form__form-label'>Phone*</label>
-          <input id='start-a-project__phone' type='text' name='phone' />
+          <input id='start-a-project__phone' type='phone' name='phone' />
         </div>
         <div class='modal-form__form-input half last'>
           <label for='start-a-project__email' class='modal-form__form-label'>Email*</label>
-          <input id='start-a-project__email' type='text' name='email' />
+          <input id='start-a-project__email' type='email' name='email' />
         </div>
         <div class='modal-form__form-input full'>
           <label for='start-a-project__additional' class='modal-form__form-label'>Additional Details</label>
@@ -353,11 +353,11 @@
         </div>
         <div class='modal-form__form-input half'>
           <label for='consultation__phone' class='modal-form__form-label'>Phone*</label>
-          <input id='consultation__phone' type='text' name='phone' />
+          <input id='consultation__phone' type='phone' name='phone' />
         </div>
         <div class='modal-form__form-input half last'>
           <label for='consultation__email' class='modal-form__form-label'>Email*</label>
-          <input id='consultation__email' type='text' name='email' />
+          <input id='consultation__email' type='email' name='email' />
         </div>
         <div class='modal-form__form-input full'>
           <label for='consultation__additional' class='modal-form__form-label'>Additional Details</label>
@@ -374,13 +374,15 @@
       <h3 class='newsletter-form__section-title section-title'>
         Subscribe To Our Newsletter
       </h3>
-      <form id='newsletter' class='modal-form' action='/newsletter-submit' method='post'>
+      <form action="//propellerlabs.us7.list-manage.com/subscribe/post?u=3e177ce3cfb042fe66270e98a&amp;id=b1cd358904"
+        method="post" id="newsletter" class='modal-form' name="newsletter"
+        target="_blank">
         <div class='modal-form__form-input full'>
           <label for='newsletter__email' class='modal-form__form-label'>Email*</label>
-          <input id='newsletter__email' type='email' />
+          <input id='newsletter__email' type='email' name='email'>
         </div>
         <div class='newsletter__submit-container modal-form__submit-container'>
-          <button class='modal-form__submit-btn' type='submit'>Submit &rarr;</button>
+          <button class='modal-form__submit-btn' type='submit' onclick='modalHandler.onNewsletterSubmit()'>Submit &rarr;</button>
         </div>
       </form>
     </div>

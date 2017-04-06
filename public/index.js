@@ -20,44 +20,6 @@ window.onload = function() {
   var rectWidth = 8;
   var rectHeight = 8;
 
-  var modalHandler = (function() {
-    var init = function() {
-      var links = Array.from(document.getElementsByClassName('modal-link'));
-
-      links.forEach(function(link) {
-        var modalName = link.dataset.modal;
-        var modal = document.getElementById(modalName + '-modal');
-        var overlay = document.getElementById('overlay');
-        var close = modal.querySelector('.close-icon');
-        close.addEventListener('click', function() {
-          closeModal(modal, overlay);
-        });
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          toggleModal(modal, overlay);
-        });
-      })
-    }
-
-    var toggleModal = function(modal, overlay) {
-      var body = document.getElementsByTagName('body')[0];
-      body.classList.toggle('modal-open');
-      modal.classList.toggle('show');
-      overlay.classList.toggle('show');
-    };
-
-    var closeModal = function(modal, overlay) {
-      var body = document.getElementsByTagName('body')[0];
-      body.classList.remove('modal-open');
-      modal.classList.remove('show');
-      overlay.classList.remove('show');
-    }
-
-    return {
-      init: init
-    };
-  }());
-
   setCanvases();
   modalHandler.init();
 
@@ -244,3 +206,48 @@ window.onload = function() {
     }
   }
 }
+
+var modalHandler = (function() {
+  var init = function() {
+    var links = Array.from(document.getElementsByClassName('modal-link'));
+
+    links.forEach(function(link) {
+      var modalName = link.dataset.modal;
+      var modal = document.getElementById(modalName + '-modal');
+      var overlay = document.getElementById('overlay');
+      var close = modal.querySelector('.close-icon');
+      close.addEventListener('click', function() {
+        closeModal(modal, overlay);
+      });
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        toggleModal(modal, overlay);
+      });
+    })
+  }
+
+  var toggleModal = function(modal, overlay) {
+    var body = document.getElementsByTagName('body')[0];
+    body.classList.toggle('modal-open');
+    modal.classList.toggle('show');
+    overlay.classList.toggle('show');
+  };
+
+  var closeModal = function(modal, overlay) {
+    var body = document.getElementsByTagName('body')[0];
+    body.classList.remove('modal-open');
+    modal.classList.remove('show');
+    overlay.classList.remove('show');
+  }
+
+  var handleNewsletterSubmit = function() {
+    var modal = document.getElementById('newsletter-modal');
+    var overlay = document.getElementById('overlay');
+    closeModal(modal, overlay);
+  }
+
+  return {
+    init: init,
+    onNewsletterSubmit: handleNewsletterSubmit
+  };
+}());
