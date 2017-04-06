@@ -578,7 +578,7 @@ body.modal-open {
   top: -100%;
   transform: translate(0, -50%);
   background-color: white;
-  padding: 144px 300px 94px;
+  padding: 20px;
   width: 100%;
   box-shadow: 16px 16px 24px 0 rgba(0, 0, 0, 0.16);
   z-index: 100;
@@ -590,7 +590,7 @@ body.modal-open {
 }
 
 @media(min-width: 738px) {
-  .start-a-project-modal {
+  .modal {
     padding: 144px 300px 94px;
   }
 }
@@ -651,10 +651,17 @@ body.modal-open {
 .close-icon {
   position: absolute;
   cursor: pointer;
-  top: 128px;
-  right: 78px;
+  top: 20px;
+  right: 20px;
   width: 25px;
   height: 25px;
+}
+
+@media(min-width: 738px) {
+  .close-icon {
+    top: 128px;
+    right: 78px;
+  }
 }
 
 .close-icon:before, .close-icon:after {
