@@ -20,6 +20,19 @@ window.onload = function() {
   var rectWidth = 8;
   var rectHeight = 8;
 
+  var success = getParameterByName('success');
+  var err = getParameterByName('error');
+
+  if(success) {
+    var node = document.getElementsByClassName('success-alert')[0];
+    node.classList.add('show');
+    setTimeout(function() { node.classList.remove('show'); }, 2000);
+  } else if (err) {
+    var node = document.getElementsByClassName('error-alert')[0];
+    node.classList.add('show');
+    setTimeout(function() { node.classList.remove('show'); }, 2000);
+  }
+
   setCanvases();
   modalHandler.init();
 
@@ -251,3 +264,15 @@ var modalHandler = (function() {
     onNewsletterSubmit: handleNewsletterSubmit
   };
 }());
+
+function getParameterByName(name, url) {
+  if (!url) {
+    url = window.location.href;
+  }
+  name = name.replace(/[\[\]]/g, "\\$&");
+  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+      results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, " "));
+}

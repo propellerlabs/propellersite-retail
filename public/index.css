@@ -681,3 +681,37 @@ body.modal-open {
 .close-icon:after {
   transform: rotate(45deg);
 }
+
+.success-alert, .error-alert {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: -100%;
+  left: 20px;
+  right: 20px;
+  height: 50px;
+  font-family: Calibre-Regular, sans-serif;
+  font-size: 20px;
+  z-index: 1000;
+  transition: top 0.5s ease;
+}
+
+@media(min-width: 738px) {
+  .success-alert, .error-alert {
+    left: 300px;
+    right: 300px;
+  }
+}
+
+.success-alert {
+  background-color: #c8e5bc;
+}
+
+.error-alert {
+  background-color: #e7c3c3;
+}
+
+.success-alert.show, .error-alert.show {
+  top: 0;
+}

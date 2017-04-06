@@ -65,12 +65,13 @@ app.post('/start-submit', function(req, res) {
   client.sendMail(email, function(err, info){
     if (err){
       console.log(err);
+      res.redirect('/?error=true');
     }
     else {
       console.log('Message sent: ' + info.response);
+      res.redirect('/?success=true');
     }
   });
-  res.redirect('/');
 });
 
 app.post('/consultation-submit', function(req, res) {
@@ -110,16 +111,13 @@ app.post('/consultation-submit', function(req, res) {
   client.sendMail(email, function(err, info){
     if (err){
       console.log(err);
+      res.redirect('/?error=true');
     }
     else {
       console.log('Message sent: ' + info.response);
+      res.redirect('/?success=true');
     }
   });
-  res.redirect('/');
-});
-
-app.post('/newsletter-submit', function(req, res) {
-  console.log('newsletter submit');
 });
 
 app.listen(app.get('port'), function () {
