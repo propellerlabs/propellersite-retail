@@ -52,11 +52,11 @@ app.post('/start-submit', function(req, res) {
     'Title: ' + req.body.title +
     'Phone: ' + req.body.phone +
     'Email: ' + req.body.email +
-    'Additional Detail: ' + req.body.details;
+    'Additional Details: ' + req.body.details;
 
   var email = {
     from: 'webform@propellerlabs.co',
-    to: 'john@propellerlabs.co',
+    to: process.env.EMAIL_SEND_TO,
     subject: 'Start a project submission',
     text: text,
     html: body
@@ -74,8 +74,48 @@ app.post('/start-submit', function(req, res) {
 });
 
 app.post('/consultation-submit', function(req, res) {
-  console.log('req', req);
-  console.log('consultation submit');
+  var body =
+    'Name: ' +
+    '<p>' + req.body.name + '</p>' +
+    'Location: ' +
+    '<p>' + req.body.location + '</p>' +
+    'Company: ' +
+    '<p>' + req.body.company + '</p>' +
+    'Title: ' +
+    '<p>' + req.body.title + '</p>' +
+    'Phone: ' +
+    '<p>' + req.body.phone + '</p>' +
+    'Email: ' +
+    '<p>' + req.body.email + '</p>' +
+    'Additional Detail: ' +
+    '<p>' + req.body.details + '</p>';
+
+  var text =
+    'Name: ' + req.body.name +
+    'Location: ' + req.body.location +
+    'Company: ' + req.body.company +
+    'Title: ' + req.body.title +
+    'Phone: ' + req.body.phone +
+    'Email: ' + req.body.email +
+    'Additional Details: ' + req.body.details;
+
+  var email = {
+    from: 'webform@propellerlabs.co',
+    to: process.env.EMAIL_SEND_TO,
+    subject: 'Request free consultation submission',
+    text: text,
+    html: body
+  };
+
+  client.sendMail(email, function(err, info){
+    if (err){
+      console.log(err);
+    }
+    else {
+      console.log('Message sent: ' + info.response);
+    }
+  });
+  res.redirect('/');
 });
 
 app.post('/newsletter-submit', function(req, res) {
