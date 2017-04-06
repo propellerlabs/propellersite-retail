@@ -221,18 +221,19 @@ var canvasHandler = (function() {
       var position = getPosition(e, canvas);
       var radius = 1;
       var t = 1;
-      paintSquare(position, 0, 0, context);
       drawColors(position, radius, context);
+      var id;
 
       var animation = function() {
-        if(radius > window.innerWidth && radius > window.innerHeight) {
+        if(radius * translateX > window.outerWidth && radius * translateY > window.outerHeight) {
+          console.log(id);
+          cancelAnimationFrame(id);
           return;
         }
         t++;
-        radius = radius * 1.01;
-        paintSquare(position, 0, 0, context);
+        radius = radius + 1;
         drawColors(position, radius, context);
-        requestAnimationFrame(animation);
+        id = requestAnimationFrame(animation);
       };
 
       animation();
@@ -252,14 +253,16 @@ var canvasHandler = (function() {
         var dx = Math.abs(i);
         for(var j = -radiusInt; j < radiusInt; j++) {
           var dy = Math.abs(j);
-          if (inCircle(dx, dy, radiusInt)) {
+          if (inRing(dx, dy, radiusInt)) {
             paintSquare(position, i, j, context);
+          } else if(inRing(dx, dy, radiusInt - 2)) {
+            paintBg(position, i, j);
           }
         }
       }
     }
 
-    var inCircle = function(dx, dy, R) {
+    var inRing = function(dx, dy, R) {
       if (dx > R) {
         return false;
       } else if (dy > R) {
@@ -284,32 +287,22 @@ var canvasHandler = (function() {
       );
     }
 
-    var clearCanvas = function() {
-      context.clearRect(0, 0, width, height);
-      drawBg({
-        context: context,
-        width: width,
-        height: height,
-        rectWidth: rectWidth,
-        rectHeight: rectHeight,
-        translateX: translateX,
-        translateY: translateY,
-        bgColor: bgColor
-      });
+    var paintBg = function(position, i, j) {
+      var originX = Math.floor(position.x / translateX) * translateX;
+      var originY = Math.floor(position.y / translateY) * translateY;
+      const color = bgColor();
+      context.fillStyle = 'rgb('+ color +','+ color +','+ color +')';
+      context.fillRect(
+        originX + (translateX * i),
+        originY + (translateY * j),
+        rectWidth,
+        rectHeight
+      );
     }
 
     var resetColor = function(position, i, j, timeout = 2000) {
       setTimeout(function() {
-        var originX = Math.floor(position.x/translateX) * translateX;
-        var originY = Math.floor(position.y/translateY) * translateY;
-        const color = bgColor();
-        context.fillStyle = 'rgb('+ color +','+ color +','+ color +')';
-        context.fillRect(
-          originX + (translateX * i),
-          originY + (translateY * j),
-          rectWidth,
-          rectHeight
-        );
+        paintBg(position, i, j)
       }, timeout);
     }
 
