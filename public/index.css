@@ -301,6 +301,10 @@ input:focus, textarea:focus, button:focus {
     padding-bottom: 128px;
   }
 }
+.case-studies__case-study {
+  position: relative;
+  z-index: 1;
+}
 
 @media(min-width: 738px) {
   .case-studies__case-study {
