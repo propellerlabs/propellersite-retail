@@ -625,7 +625,7 @@ body.modal-open {
   display: block;
   border-bottom: 2px solid #ffa31f;
   transform: scaleX(0);
-  transition: transform 0.5s ease;
+  transition: all 0.5s ease;
 }
 
 .modal-form.submitted .modal-form__form-input input:invalid ~ .modal-form__input-line,
@@ -643,6 +643,12 @@ body.modal-open {
 .modal-form__form-input.initialized input:focus ~ .modal-form__input-line,
 .modal-form__form-input.initialized textarea:focus ~ .modal-form__input-line {
   transform: scaleX(1);
+}
+
+.modal-form.submitted .modal-form__form-input input:focus ~ .modal-form__input-line,
+.modal-form.submitted .modal-form__form-input textarea:focus ~ .modal-form__input-line {
+  transform: scaleX(1);
+  border-bottom: 2px solid #ffa31f;
 }
 
 .modal-link {
@@ -690,6 +696,11 @@ body.modal-open {
 .modal-form__form-input.initialized input:invalid:not(:focus) ~ .modal-form__form-label,
 .modal-form__form-input.initialized textarea:invalid:not(:focus) ~ .modal-form__form-label {
   color: #D32F2F;
+}
+
+.modal-form.submitted .modal-form__form-input input:focus ~ .modal-form__form-label,
+.modal-form.submitted .modal-form__form-input textarea:focus ~ .modal-form__form-label {
+  color: #ffa31f;
 }
 
 .modal-form__form-input.initialized input:focus ~ .modal-form__form-label,
