@@ -51,45 +51,6 @@ window.onload = function() {
     canvasHandler.init(canvasOptions);
   };
 
-  function setStaticCanvas(canvas, content) {
-    var context = canvas.getContext('2d');
-    var width = window.innerWidth;
-    var height = content.clientHeight;
-
-    setCanvasDimensions(canvas, width, height);
-    canvas.style.backgroundColor = 'rgb(255, 255, 255)';
-
-    var bgColor = function() { return randomIntFromInterval(251, 255) };
-
-    context.save();
-    drawBg({
-      context: context,
-      width: width,
-      height: height,
-      rectWidth: rectWidth,
-      rectHeight: rectHeight,
-      translateX: translateX,
-      translateY: translateY,
-      bgColor: bgColor
-    });
-    context.restore();
-  }
-
-  function drawBg(options) {
-    var context = options.context;
-
-    for(var i = 0; i < options.width; i += options.translateX) {
-      context.save();
-      for(var j = 0; j < options.height; j += options.translateY) {
-        var color = options.bgColor();
-        context.fillStyle = 'rgb('+ color +','+ color +','+ color +')';
-        context.fillRect(0, 0, options.rectWidth, options.rectHeight);
-        context.translate(0, options.translateY);
-      }
-      context.restore();
-      context.translate(options.translateX, 0);
-    }
-  }
 }
 
 var modalHandler = (function() {
@@ -145,6 +106,10 @@ var canvasHandler = (function() {
     interactive.forEach(function(obj) {
       interactiveCanvas(obj.canvas, obj.container, options);
     });
+
+    static.forEach(function(obj) {
+      staticCanvas(obj.canvas, obj.container, options);
+    })
   }
 
   var setCanvasDimensions = function(canvas, width, height) {
@@ -156,7 +121,7 @@ var canvasHandler = (function() {
     var canvas = document.getElementById(canvas),
         container = document.getElementById(container),
         context = canvas.getContext('2d'),
-        height = container.clientHeight,
+        height = container.getBoundingClientRect().height,
         width = window.innerWidth,
         rectWidth = options.rectWidth,
         rectHeight = options.rectHeight,
@@ -213,7 +178,7 @@ var canvasHandler = (function() {
 
       requestAnimationFrame(function() {
         paintSquare(position, 0, 0, context);
-        resetColor(position, 0, 0, 5, context);
+        resetColor(position, 0, 0, 50, context);
       })
     }
 
@@ -315,6 +280,49 @@ var canvasHandler = (function() {
     canvas.addEventListener('click', function(e) {
       onClick(e, canvas, context)
     });
+  };
+
+  var staticCanvas = function(canvas, container, options) {
+    var canvas = document.getElementById(canvas),
+        container = document.getElementById(container);
+
+    var context = canvas.getContext('2d');
+    var width = window.innerWidth;
+    var height = container.clientHeight;
+
+    setCanvasDimensions(canvas, width, height);
+    canvas.style.backgroundColor = 'rgb(255, 255, 255)';
+
+    var bgColor = function() { return randomIntFromInterval(251, 255) };
+
+    var drawBg = function(options) {
+      var context = options.context;
+
+      for(var i = 0; i < options.width; i += options.translateX) {
+        context.save();
+        for(var j = 0; j < options.height; j += options.translateY) {
+          var color = options.bgColor();
+          context.fillStyle = 'rgb('+ color +','+ color +','+ color +')';
+          context.fillRect(0, 0, options.rectWidth, options.rectHeight);
+          context.translate(0, options.translateY);
+        }
+        context.restore();
+        context.translate(options.translateX, 0);
+      }
+    }
+
+    context.save();
+    drawBg({
+      context: context,
+      width: width,
+      height: height,
+      rectWidth: options.rectWidth,
+      rectHeight: options.rectHeight,
+      translateX: options.translateX,
+      translateY: options.translateY,
+      bgColor: bgColor
+    });
+    context.restore();
   };
 
   return {
