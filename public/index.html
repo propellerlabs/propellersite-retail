@@ -298,27 +298,45 @@
       <form id='start-a-project' class='modal-form' action='/start-submit' method='post'>
         <div class='modal-form__form-input full'>
           <label for='start-a-project__name' class='modal-form__form-label'>Name*</label>
-          <input id='start-a-project__name' type='text' name='name' required />
+          <div class='modal-form__input-container'>
+            <input id='start-a-project__name' type='text' name='name' required />
+            <div class='modal-form__input-line'></div>
+          </div>
         </div>
         <div class='modal-form__form-input half'>
           <label for='start-a-project__company' class='modal-form__form-label'>Company*</label>
-          <input id='start-a-project__company' type='text' name='company' required />
+          <div class='modal-form__input-container'>
+            <input id='start-a-project__company' type='text' name='company' required />
+            <div class='modal-form__input-line'></div>
+          </div>
         </div>
         <div class='modal-form__form-input half last'>
           <label for='start-a-project__title' class='modal-form__form-label'>Title*</label>
-          <input id='start-a-project__title' type='text' name='title' required />
+          <div class='modal-form__input-container'>
+            <input id='start-a-project__title' type='text' name='title' required />
+            <div class='modal-form__input-line'></div>
+          </div>
         </div>
         <div class='modal-form__form-input half'>
           <label for='start-a-project__phone' class='modal-form__form-label'>Phone*</label>
-          <input id='start-a-project__phone' type='phone' name='phone' required />
+          <div class='modal-form__input-container'>
+            <input id='start-a-project__phone' type='tel' name='phone' required />
+            <div class='modal-form__input-line'></div>
+          </div>
         </div>
         <div class='modal-form__form-input half last'>
           <label for='start-a-project__email' class='modal-form__form-label'>Email*</label>
-          <input id='start-a-project__email' type='email' name='email' required />
+          <div class='modal-form__input-container'>
+            <input id='start-a-project__email' type='email' name='email' required />
+            <div class='modal-form__input-line'></div>
+          </div>
         </div>
         <div class='modal-form__form-input full'>
           <label for='start-a-project__additional' class='modal-form__form-label'>Additional Details</label>
-          <textarea id='start-a-project__additional' name='details' ></textarea>
+          <div class='modal-form__input-container'>
+            <textarea id='start-a-project__additional' name='details' ></textarea>
+            <div class='modal-form__input-line'></div>
+          </div>
         </div>
         <div class='start-a-project-form__submit-container modal-form__submit-container'>
           <button class='modal-form__submit-btn' type='submit'>Submit &rarr;</button>
@@ -334,31 +352,52 @@
       <form id='consultation' class='modal-form' action='/consultation-submit' method='post'>
         <div class='modal-form__form-input half'>
           <label for='consultation__name' class='modal-form__form-label'>Name*</label>
-          <input id='consultation__name' type='text' name='name' required />
+          <div class='modal-form__input-container'>
+            <input id='consultation__name' type='text' name='name' required />
+            <div class='modal-form__input-line'></div>
+          </div>
         </div>
         <div class='modal-form__form-input half last'>
           <label for='consultation__location' class='modal-form__form-label'>Location*</label>
-          <input id='consultation__location' type='text' name='location' required />
+          <div class='modal-form__input-container'>
+            <input id='consultation__location' type='text' name='location' required />
+            <div class='modal-form__input-line'></div>
+          </div>
         </div>
         <div class='modal-form__form-input half'>
           <label for='consultation__company' class='modal-form__form-label'>Company*</label>
-          <input id='consultation__company' type='text' name='company' required />
+          <div class='modal-form__input-container'>
+            <input id='consultation__company' type='text' name='company' required />
+            <div class='modal-form__input-line'></div>
+          </div>
         </div>
         <div class='modal-form__form-input half last'>
           <label for='consultation__title' class='modal-form__form-label'>Title*</label>
-          <input id='consultation__title' type='text' name='title' required />
+          <div class='modal-form__input-container'>
+            <input id='consultation__title' type='text' name='title' required />
+            <div class='modal-form__input-line'></div>
+          </div>
         </div>
         <div class='modal-form__form-input half'>
           <label for='consultation__phone' class='modal-form__form-label'>Phone*</label>
-          <input id='consultation__phone' type='phone' name='phone' required />
+          <div class='modal-form__input-container'>
+            <input id='consultation__phone' type='tel' name='phone' required />
+            <div class='modal-form__input-line'></div>
+          </div>
         </div>
         <div class='modal-form__form-input half last'>
           <label for='consultation__email' class='modal-form__form-label'>Email*</label>
-          <input id='consultation__email' type='email' name='email' required />
+          <div class='modal-form__input-container'>
+            <input id='consultation__email' type='email' name='email' required />
+            <div class='modal-form__input-line'></div>
+          </div>
         </div>
         <div class='modal-form__form-input full'>
           <label for='consultation__additional' class='modal-form__form-label'>Additional Details</label>
-          <textarea id='consultation__additional' name='details' ></textarea>
+          <div class='modal-form__input-container'>
+            <textarea id='consultation__additional' name='details' ></textarea>
+            <div class='modal-form__input-line'></div>
+          </div>
         </div>
         <div class='consultation__submit-container modal-form__submit-container'>
           <button class='modal-form__submit-btn' type='submit'>Submit &rarr;</button>
@@ -376,7 +415,10 @@
         target="_blank">
         <div class='modal-form__form-input full'>
           <label for='newsletter__email' class='modal-form__form-label'>Email*</label>
-          <input id='newsletter__email' type='email' name='email' required />
+          <div class='modal-form__input-container'>
+            <input id='newsletter__email' type='email' name='email' required />
+            <div class='modal-form__input-line'></div>
+          </div>
         </div>
         <div class='newsletter__submit-container modal-form__submit-container'>
           <button class='modal-form__submit-btn' type='submit' onclick='modalHandler.onNewsletterSubmit()'>Submit &rarr;</button>

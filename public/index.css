@@ -604,9 +604,28 @@ body.modal-open {
   border: none;
   border-bottom: 1px solid rgba(34, 34, 34, 0.2);
   width: 100%;
-  margin-bottom: 64px;
   font-family: Calibre-Regular, sans-serif;
   font-size: 20px;
+  padding: 0;
+}
+
+.modal-form__input-container {
+  position: relative;
+  margin-bottom: 64px;
+}
+
+.modal-form__input-line {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  display: block;
+  border-bottom: 1px solid #D32F2F;
+  width: 0;
+  transition: width 0.5s ease;
+}
+
+.modal-form__form-input input:invalid + .modal-form__input-line {
+  width: 100%;
 }
 
 .modal-link {
