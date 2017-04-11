@@ -46,7 +46,6 @@ window.onload = function() {
     }
   })();
 
-
   window.onresize = function() {
     canvasHandler.init(canvasOptions);
   };
@@ -70,6 +69,26 @@ var modalHandler = (function() {
         toggleModal(modal, overlay);
       });
     })
+
+    var modalInputs = Array.from(document.getElementsByClassName('modal-form__form-input'));
+
+    modalInputs.forEach(function(el) {
+      var input = el.querySelector('input');
+      var textarea = el.querySelector('textarea');
+      var inputEl = input || textarea;
+
+      inputEl.addEventListener('focus', function(e) {
+        el.classList.add('initialized');
+      })
+    });
+
+    var forms = Array.from(document.getElementsByClassName('modal-form'));
+
+    forms.forEach(function(el) {
+      el.querySelector('button[type=submit]').addEventListener('click', function(e) {
+        el.classList.add('submitted');
+      })
+    });
   }
 
   var toggleModal = function(modal, overlay) {
@@ -89,7 +108,8 @@ var modalHandler = (function() {
   var handleNewsletterSubmit = function() {
     var modal = document.getElementById('newsletter-modal');
     var overlay = document.getElementById('overlay');
-    closeModal(modal, overlay);
+    var invalid = modal.querySelector('input:invalid');
+    !invalid && closeModal(modal, overlay);
   }
 
   return {

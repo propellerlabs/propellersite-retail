@@ -607,25 +607,42 @@ body.modal-open {
   font-family: Calibre-Regular, sans-serif;
   font-size: 20px;
   padding: 0;
+  vertical-align: bottom;
+  box-shadow: none;
 }
 
 .modal-form__input-container {
   position: relative;
   margin-bottom: 64px;
+  padding-top: 26px;
 }
 
 .modal-form__input-line {
   content: '';
   position: absolute;
   bottom: 0;
+  width: 100%;
   display: block;
-  border-bottom: 1px solid #D32F2F;
-  width: 0;
-  transition: width 0.5s ease;
+  border-bottom: 2px solid #ffa31f;
+  transform: scaleX(0);
+  transition: transform 0.5s ease;
 }
 
-.modal-form__form-input input:invalid + .modal-form__input-line {
-  width: 100%;
+.modal-form.submitted .modal-form__form-input input:invalid ~ .modal-form__input-line,
+.modal-form.submitted .modal-form__form-input textarea:invalid ~ .modal-form__input-line {
+  border-bottom: 2px solid #D32F2F;
+  transform: scaleX(1);
+}
+
+.modal-form__form-input.initialized input:invalid:not(:focus) ~ .modal-form__input-line,
+.modal-form__form-input.initialized textarea:invalid:not(:focus) ~ .modal-form__input-line {
+  border-bottom: 2px solid #D32F2F;
+  transform: scaleX(1);
+}
+
+.modal-form__form-input.initialized input:focus ~ .modal-form__input-line,
+.modal-form__form-input.initialized textarea:focus ~ .modal-form__input-line {
+  transform: scaleX(1);
 }
 
 .modal-link {
@@ -656,9 +673,28 @@ body.modal-open {
 }
 
 .modal-form__form-label {
+  position: absolute;
+  top: 0;
+  left: 0;
   font-family: Calibre-Regular, sans-serif;
   font-size: 24px;
   opacity: 0.5;
+  transition: color 0.5s ease;
+}
+
+.modal-form.submitted .modal-form__form-input input:invalid ~ .modal-form__form-label,
+.modal-form.submitted .modal-form__form-input textarea:invalid ~ .modal-form__form-label {
+  color: #D32F2F;
+}
+
+.modal-form__form-input.initialized input:invalid:not(:focus) ~ .modal-form__form-label,
+.modal-form__form-input.initialized textarea:invalid:not(:focus) ~ .modal-form__form-label {
+  color: #D32F2F;
+}
+
+.modal-form__form-input.initialized input:focus ~ .modal-form__form-label,
+.modal-form__form-input.initialized textarea:focus ~ .modal-form__form-label {
+  color: #ffa31f;
 }
 
 .modal-form__submit-btn {
