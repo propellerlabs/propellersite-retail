@@ -46,6 +46,129 @@ window.onload = function() {
     }
   })();
 
+    var transformProp = (function(){
+    var testEl = document.createElement('div');
+    if(testEl.style.transform == null) {
+      var vendors = ['Webkit', 'Moz', 'ms'];
+      for(var vendor in vendors) {
+        if(testEl.style[ vendors[vendor] + 'Transform' ] !== undefined) {
+          return vendors[vendor] + 'Transform';
+        }
+      }
+    }
+    return 'transform';
+  })();
+
+  var parallaxHover = function() {
+    var init = function(elClass, containerClass, boxShadowEffect) {
+      var containers = Array.from(document.getElementsByClassName(containerClass));
+
+      containers.forEach(function(container) {
+        var el = container.getElementsByClassName(elClass)[0];
+        container.addEventListener('mousemove', function(e) {
+          return onMouseMove(e, el, container, boxShadowEffect);
+        });
+        container.addEventListener('mouseleave', function() {
+          return onMouseLeave(el, boxShadowEffect);
+        })
+      });
+    }
+
+    var onMouseMove = function(e, el, container, boxShadowEffect) {
+      var center = elCenter(el);
+      var dist = distanceBetween(center.x, center.y, e.clientX, e.clientY);
+      var distToDeg = normalizeDistToDegrees(dist, center, container);
+      var direction = rotationDirection(center.x, center.y, e.clientX, e.clientY);
+      var dirToShadow = normalizeDirToShadow(direction, center, container);
+      rotateEl(el, distToDeg, direction);
+      boxShadowEffect && applyBoxShadow(el, dist, dirToShadow);
+    }
+
+    var onMouseLeave = function(el, boxShadowEffect) {
+      el.style[transformProp] = 'rotate3d(0, 0, 0, 0)';
+      if (boxShadowEffect) {
+        el.style.boxShadow = '8px 8px 24px 0 rgba(0, 0, 0, 0.16)';
+      }
+    }
+
+    var rotationDirection = function(x1, y1, x2, y2) {
+      var x = x2 - x1;
+      var y = y2 - y1;
+      return { x: x, y: y };
+    }
+
+    var farthestDist = function(center, container) {
+      var rect = container.getBoundingClientRect();
+      return distanceBetween(center.x, center.y, rect.right, rect.top);
+    }
+
+    var farthestX = function(center, container) {
+      var rect = container.getBoundingClientRect();
+      var leftDist = rect.left - center.x;
+      var rightDist = rect.right - center.x;
+      return leftDist > rightDist ? leftDist : rightDist;
+    }
+
+    var farthestY = function(center, container) {
+      var rect = container.getBoundingClientRect();
+      var topDist = rect.top - center.y;
+      var bottomDist = rect.bottom - center.y;
+      return topDist > bottomDist ? topDist : bottomDist;
+    }
+
+    var normalizeDistToDegrees = function(dist, center, container) {
+      var far = farthestDist(center, container);
+      return (far - dist) / far * 15;
+    }
+
+    var normalizeDirToShadow = function(dir, center, container) {
+      var farX = farthestX(center, container);
+      var farY = farthestY(center, container);
+      var x = (farX - Math.abs(dir.x)) / farX * 8;
+      var y = (farY - Math.abs(dir.y)) / farY * 8;
+      return { x: x, y: y };
+    }
+
+    var rotateEl = function(el, dist, dir) {
+      el.style[transformProp] = 'rotate3d(' + -dir.y + ',' + dir.x + ', 0,' + dist + 'deg)';
+    }
+
+    var applyBoxShadow = function(el, dist, dir) {
+      el.style.boxShadow = dir.y + 'px ' + dir.x + 'px ' + '24px 0 rgba(0, 0, 0, 0.16)';
+    }
+
+    var distanceBetween = function(x1, y1, x2, y2) {
+      return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
+    }
+
+    var elCenter = function(el) {
+      var rect = el.getBoundingClientRect();
+      var x = rect.left + rect.width / 2;
+      var y = rect.top + rect.height / 2;
+      return { x: x, y: y };
+    }
+
+    return {
+      init: init
+    };
+  }();
+
+  parallaxHover.init(
+    'classics__works-container__work__image',
+    'classics__works-container__work'
+  );
+
+  parallaxHover.init(
+    'case-studies__case-study__image-container__img',
+    'case-studies__case-study'
+  );
+
+  parallaxHover.init(
+    'about-us__stat-box',
+    'about-us',
+    true
+  );
+
   window.onresize = function() {
     canvasHandler.init(canvasOptions);
   };
