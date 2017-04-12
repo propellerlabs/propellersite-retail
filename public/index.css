@@ -315,6 +315,14 @@ input:focus, textarea:focus, button:focus {
   }
 }
 
+.case-studies__case-study__external-link {
+  font-family: Calibre-Medium;
+  font-size: 24px;
+  color: #ff4720;
+  text-decoration: none;
+  font-weight: 600;
+}
+
 .case-studies__case-study__image-container__img {
   position: relative;
   max-width: 100%;
