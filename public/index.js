@@ -210,8 +210,7 @@ var canvasHandler = (function() {
       var id;
 
       var animation = function() {
-        if(radius * translateX > window.outerWidth && radius * translateY > window.outerHeight) {
-          console.log(id);
+        if(radius * translateX > window.outerWidth + 100 && radius * translateY > window.outerHeight + 100) {
           cancelAnimationFrame(id);
           return;
         }
