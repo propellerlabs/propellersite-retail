@@ -225,8 +225,8 @@ var canvasHandler = (function() {
       var id;
 
       var animation = function() {
-        if(radius * translateX > window.outerWidth && radius * translateY > window.outerHeight) {
-          console.log(id);
+        if(radius * translateX > Math.sqrt(2 * Math.pow(window.outerWidth, 2))
+          && radius * translateY > Math.sqrt(2 * Math.pow(window.outerHeight, 2))) {
           cancelAnimationFrame(id);
           return;
         }
@@ -437,14 +437,14 @@ var parallaxHover = function() {
 
   var normalizeDistToDegrees = function(dist, center, container) {
     var far = farthestDist(center, container);
-    return dist / far * 15;
+    return dist / far * 20;
   }
 
   var normalizeDirToShadow = function(dir, center, container) {
     var farX = farthestX(center, container);
     var farY = farthestY(center, container);
-    var x = Math.abs(dir.x) / farX * 8;
-    var y = Math.abs(dir.y) / farY * 8;
+    var x = Math.abs(dir.x) / farX * 16;
+    var y = Math.abs(dir.y) / farY * 16;
     return { x: dir.x < 0 ? -x : x, y: dir.y < 0 ? -y : y };
   }
 
