@@ -225,7 +225,7 @@ var canvasHandler = (function() {
       var id;
 
       var animation = function() {
-        if(radius * translateX > Math.sqrt(2 * Math.pow(window.innerHeight, 2))
+        if(radius * translateX > Math.sqrt(2 * Math.pow(window.innerWidth, 2))
           && radius * translateY > Math.sqrt(2 * Math.pow(window.innerHeight, 2))) {
           cancelAnimationFrame(id);
           return;
